@@ -3,24 +3,25 @@ package main
 import (
 	"io/ioutil"
 	"strings"
-	"time"
 )
 
-const fromFile = "./txt/a.txt"
+const toFile = "result.csv"
+const inputFolder = "./input/"
 
-// const toFile = "result.csv"
+var result = []string{}
 
 func main() {
-	file, err := ioutil.ReadFile(fromFile)
-	checkError(err)
+	for _, fileInFolder := range readFiles(inputFolder) {
+		fileName := inputFolder + fileInFolder.Name()
+		file, err := ioutil.ReadFile(fileName)
+		checkError(err)
 
-	emails := extractEmail(file)
-	unduplicated := removeDuplicatesUnordered(emails)
+		emails := extractEmail(file)
+		unduplicated := removeDuplicatesUnordered(emails)
 
-	csv := []byte(strings.Join(unduplicated, ",\n"))
+		result = append(result, unduplicated...)
+	}
 
-	a := time.Now().Format("20060102150405")
-	// toFile := strconv.Itoa(hours) + strconv.Itoa(minutes) + strconv.Itoa(sec) + ".csv"
-	// fmt.Print(hours)
-	ioutil.WriteFile(a, csv, 0644)
+	csv := []byte(strings.Join(result, ",\n"))
+	ioutil.WriteFile(toFile, csv, 0644)
 }
