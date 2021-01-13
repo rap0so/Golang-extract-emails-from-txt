@@ -14,7 +14,7 @@ func main() {
 	for _, fileInFolder := range readFiles(inputFolder) {
 		fileName := inputFolder + fileInFolder.Name()
 		file, err := ioutil.ReadFile(fileName)
-		checkError(err)
+		checkError("Não consegui ler o arquivo"+"fileName", err)
 
 		emails := extractEmail(file)
 		unduplicated := removeDuplicatesUnordered(emails)

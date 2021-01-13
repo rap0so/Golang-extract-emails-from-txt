@@ -7,7 +7,7 @@ import (
 
 func readFiles(folder string) []os.FileInfo {
 	inputFiles, err := ioutil.ReadDir(folder)
-	checkError(err)
+	checkError("A pasta 'input' não foi criada corretamente :(", err)
 
 	return inputFiles
 }
